@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Bushra | From Ibrar Arain</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            width: 100%; height: 100%; overflow: hidden; 
+            background: #000; font-family: 'Poppins', sans-serif; color: white;
+        }
+
+        canvas { position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        /* Gift Intro */
+        #gift-overlay {
+            position: fixed; inset: 0; background: #080008; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 1s ease-in-out;
+        }
+        .gift-btn {
+            font-size: 120px; cursor: pointer; transition: 0.3s;
+            animation: pulseBox 1.5s infinite alternate;
+        }
+        @keyframes pulseBox { from { transform: scale(1); } to { transform: scale(1.1); filter: drop-shadow(0 0 30px #ff0055); } }
+
+        /* Main Experience */
+        #main-ui {
+            display: none; opacity: 0; flex-direction: column; align-items: center;
+            justify-content: center; height: 100vh; width: 100%; transition: 2s;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px; padding: 50px;
+            text-align: center; max-width: 500px; width: 90%;
+            z-index: 10; position: relative;
+            box-shadow: 0 0 100px rgba(255, 62, 108, 0.4);
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #ff0055; margin-bottom: 5px; }
+        .sub-text { font-size: 0.9rem; color: #ffd700; letter-spacing: 4px; margin-bottom: 20px; }
+
+        /* Trail & Hearts */
+        .cursor-heart {
+            position: fixed; pointer-events: none; transform: translate(-50%, -50%);
+            color: #ff3e6c; font-size: 20px; animation: fadeUp 1s forwards; z-index: 99;
+        }
+        @keyframes fadeUp { to { opacity: 0; transform: translate(-50%, -150%) scale(2); } }
+
+        /* Poppable Moments */
+        .bubble {
+            position: absolute; background: rgba(255, 62, 108, 0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            padding: 10px; font-size: 12px; cursor: pointer; white-space: nowrap;
+            animation: floatBubble 8s infinite linear; border: 1px solid rgba(255,255,255,0.2);
+        }
+        @keyframes floatBubble {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body onmousemove="handleTrail(event)" ontouchmove="handleTrail(event.touches[0])">
+
+    <div id="gift-overlay">
+        <div class="gift-btn" onclick="openSurprise()">💝</div>
+        <p style="margin-top:20px; color: #ff85a2; letter-spacing: 2px;">BUSHRA, TAP THE HEART</p>
+    </div>
+
+    <canvas id="stars"></canvas>
+
+    <div id="main-ui">
+        <div class="glass-card">
+            <p style="font-size: 0.7rem; opacity: 0.6;">FROM YOUR HUSBAND IBRAR ARAIN</p>
+            <h1>Happy 2026</h1>
+            <p class="sub-text">MY QUEEN BUSHRA</p>
+            
+            <p style="line-height: 1.8; margin-bottom: 20px;">
+                "Every star in the sky is a reason why I love you. You are my 2025's best memory and my 2026's biggest dream."
+            </p>
+            
+            <h2 style="color: #ff3e6c; font-family: 'Dancing Script';">I Love You Bushra!</h2>
+            <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.5;">Move your finger or pop the bubbles ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Interactive Reveal
+        function openSurprise() {
+            document.getElementById('gift-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('gift-overlay').style.display = 'none';
+                document.getElementById('main-ui').style.display = 'flex';
+                setTimeout(() => document.getElementById('main-ui').style.opacity = '1', 100);
+            }, 1000);
+            createBubbles();
+        }
+
+        // 2. Magic Trail Interaction
+        function handleTrail(e) {
+            const h = document.createElement('div');
+            h.innerHTML = '✨'; h.className = 'cursor-heart';
+            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
+
+        // 3. Poppable Love Bubbles
+        const loveNotes = ["My Life", "My Soul", "I Love You", "Bushra ❤️", "2026!", "Janu", "Always Yours"];
+        function createBubbles() {
+            setInterval(() => {
+                const b = document.createElement('div');
+                b.className = 'bubble';
+                b.innerText = loveNotes[Math.floor(Math.random()*loveNotes.length)];
+                b.style.left = Math.random() * 90 + 'vw';
+                b.style.width = '80px'; b.style.height = '80px';
+                b.onclick = () => { b.innerText = "💥❤️"; setTimeout(() => b.remove(), 500); };
+                document.body.appendChild(b);
+            }, 2000);
+        }
+
+        // 4. Background Stars & Animation
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let stars = [];
+        for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2, d: Math.random()*150});
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+                s.y -= 0.5; if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
